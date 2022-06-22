@@ -23,10 +23,13 @@ const C_ALPHA = 4;
 const C_DOT = 5;
 const C_SPACE = 6;
 
-const ITEM_UNKNOWN = 0;
+const ITEM_UNKNOWN = -1;
+const ITEM_START = 0;
 const ITEM_VARIABLE = 1;
 const ITEM_NUMERIC = 2;
 const ITEM_OPERATOR = 3;
+const ITEM_SPACE = 4;
+const ITEM_PAREN = 5;
 
 function isNumChar(c) {
     return /[0-9]/.test(c);
@@ -44,6 +47,10 @@ function isOperator(c) {
     return "+-*/|!^&=".includes(c);
 }
 
+function isEtcMode(itemMode) {
+    return itemMode == ITEM_UNKNOWN || itemMode == ITEM_PAREN || itemMode == ITEM_SPACE || itemMode == ITEM_START;
+}
+
 // 数式を配列に分解
 var parray = function (inArr) {
     var ret = [];
@@ -51,15 +58,14 @@ var parray = function (inArr) {
     var val = "";
     var itemLenCount = 0;
     var itemMode = ITEM_UNKNOWN;
-    console.log("start--");
-    console.log(arr);
-    console.log("--");
- 
+    var prefItemMode = ITEM_UNKNOWN;
+
     while (arr.length) {
         var c = String(arr.shift());
-        console.log("--#--");
-        console.log(c);
-        console.log("--");
+        prefItemMode = itemMode;
+
+console.log("#1:" + c)
+console.log("#1 itemMode:" + itemMode)
 
         if (c === ' ') {
             if (val.length) {
@@ -67,10 +73,25 @@ var parray = function (inArr) {
             }
             val = '';
             itemLenCount = 0;
-            itemMode = ITEM_UNKNOWN;
+            itemMode = ITEM_SPACE;
             continue;
         }
-        console.log("$1");
+
+        if (c === '(') {
+            var arrRet = parray(arr);
+            ret.push(arrRet);
+            val = '';
+            itemLenCount = 0;
+            itemMode = ITEM_PAREN;
+            continue;
+        }
+
+        if (c === ')') {
+            if (val.length) {
+                ret.push(val);
+            }
+            return ret;
+        }
 
         //
         // 取り込み中１項目の終了確認
@@ -78,78 +99,88 @@ var parray = function (inArr) {
 
         if (itemMode == ITEM_NUMERIC) {
             if (!isNumChar(c) && (c!=".")) {
+                console.log("#NUMERIC --> UNKNOWN");
+                console.log("push: org=" + val);
+                console.log("push:" + Number(val));
                 ret.push(Number(val));
+                val = "";
                 itemLenCount = 0;
+                prefItemMode = itemMode;
                 itemMode = ITEM_UNKNOWN;
             }
         }
-        
+
         if (itemMode == ITEM_VARIABLE) {
             if (!isAlpha(c) && (c!="_") && !isNumChar(c)) {
+                console.log("#VAR --> UNKNOWN");
                 ret.push(String(val));
+                console.log("push: org=" + val);
+                console.log("push:" + String(val));
+                val = "";
                 itemLenCount = 0;
+                prefItemMode = itemMode;
                 itemMode = ITEM_UNKNOWN;
             }
         }
 
         if (itemMode == ITEM_OPERATOR) {
             if (!isOperator(c)) {
+                console.log("#OPE --> UNKNOWN");
+                console.log("push: org=" + val);
+                console.log("push:" + String(val));
                 ret.push(String(val));
+                val = "";
                 itemLenCount = 0;
+                prefItemMode = itemMode;
                 itemMode = ITEM_UNKNOWN;
             }
         }
-        console.log("$2");
 
         //
         // １項目取り込み開始＆取り込み
         //
+console.log("#2:" + c)
+console.log("#2 itemMode:" + itemMode)
+console.log("#2 prefItemMode:" + prefItemMode)
 
-        if (itemMode == ITEM_UNKNOWN || itemMode == ITEM_NUMERIC) {
-            if (isNumChar(c) || (c===".") || (itemLenCount == 0 && isSgin(c))) {
+
+        if (isEtcMode(itemMode) || itemMode == ITEM_NUMERIC) {
+            console.log("#NUM!: " + c);
+            console.log("#NUM!: itemcount:"  + itemLenCount);
+            if ((isNumChar(c) || (c===".")) || (itemLenCount == 0 && isSgin(c) && (prefItemMode == ITEM_PAREN || prefItemMode == ITEM_SPACE || prefItemMode == ITEM_START) )) {
+            // if ((isNumChar(c) || (c==="."))) {
+                    console.log("#in NUMERIC!");
                 val += String(c);
                 itemLenCount++;
                 itemMode = ITEM_NUMERIC;
                 continue;
-            }    
+            }
         }
-        console.log("$2-1");
 
-        if (itemMode == ITEM_UNKNOWN || itemMode == ITEM_VARIABLE) {
-            if ((isAlpha(c) || isNumChar(c) || (c=="_") ) && (itemLenCount == 0 && !isAlpha(c))) {
+        if (isEtcMode(itemMode) || itemMode == ITEM_VARIABLE) {
+            console.log("#VARIABLE!: " + c);
+            console.log("#VARIABLE!: itemcount:"  + itemLenCount);
+            if ((isAlpha(c) || isNumChar(c) || (c=="_") ) && !(itemLenCount == 0 && isNumChar(c))) {
+                console.log("#in VARIABLE!:" + c);
                 console.log("$2-1-2 :" + c);
                 val += String(c);
                 itemLenCount++;
                 itemMode = ITEM_VARIABLE;
                 continue;
-            }    
+            }
         }
-        console.log("$2-2");
 
-        if (itemMode == ITEM_UNKNOWN || itemMode == ITEM_OPERATOR) {
+        if (isEtcMode(itemMode) || itemMode == ITEM_OPERATOR) {
+            console.log("#OPERATOR!: " + c);
+            console.log("#OPERATOR!: itemcount:"  + itemLenCount);
             if (isOperator(c)) {
+                console.log("#in OPE!");
                 val += String(c);
                 itemLenCount++;
                 itemMode = ITEM_OPERATOR;
                 continue;
-            }    
+            }
         }
-        console.log("$3");
-
-        if (c === '(') {
-            var arrRet = parray(arr);
-            ret.push(arrRet);
-            val = '';
-            itemLenCount = 0;
-            itemMode = ITEM_UNKNOWN;
-            continue;
-        }
-        console.log("$4");
-
-        if (c === ')') {
-            return ret;
-        }
-        console.log("$5e");
 
         // 不正な文字列
         console.log("syntax error :" + c);
@@ -186,7 +217,7 @@ var evalExpress = function(inputArr) {
             state = 2;
         }
     }
-    return leftItem;        
+    return leftItem;
 }
 
 function calcExpress(operator,leftItem,rightItem) {
@@ -233,7 +264,13 @@ console.log(arr);
 console.log('-----');
 
 var retp = parray(arr);
+
+console.log('-----');
+
+console.log(text);
+console.log('-----');
+
 console.log(retp);
+
+
 //console.log('##' + evalExpress(retp));
-
-

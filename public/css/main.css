@@ -1,0 +1,44 @@
+
+#screen-backgroud {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    background-color: black;
+}
+
+#main-screen {
+    position: absolute;
+    height: 600px;
+    width: 800px;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: lightgray;
+}
+
+#text-window {
+    position:absolute;
+    top: 440px;
+    left: 50px;
+    height: 150px;
+    width: 700px;
+    background-color: rgba(255,105,212,0.5);
+}
+
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.charactor {
+    position: absolute;
+}
