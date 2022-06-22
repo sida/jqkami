@@ -1,4 +1,3 @@
-
 var GF = GF || {
     core: {},
 }
@@ -6,14 +5,20 @@ var GF = GF || {
 GF.core = (function () {
 
     let senarioData = [];
+    // スクリプトの関数は名前をキーにしてクロージャーの連想配列で管理
     let senarioFuncList = {};
+    // スクリプトの変数は名前をキーにして連想配列で管理
     let variableList = {};
+    // スクリプト処理終了を待ち合わせしている件数（待ち合わせが必要な場合はattachFunctionW（）で登録する）
     let wait_counter = 0;
+    // 実行行のカウンタ
+    let execCounter = 0;
 
     let _attachScenarioText = function (text) {
         senarioData = _parseSenario(text);
     };
 
+    // スクリプトの関数を登録
     let _attachFunction = function (name, func) {
         senarioFuncList[name] = (arg) => {
             func(arg);
@@ -21,6 +26,7 @@ GF.core = (function () {
         };
     };
 
+    // 処理の終了を待つ必要があるスクプトの関数を登録
     let _attachFunctionW = function (name, func) {
         senarioFuncList[name] = (arg) => {
             wait_counter++;
@@ -150,8 +156,6 @@ GF.core = (function () {
     const EXEC_CONTINUE = 0;
     const EXEC_WAIT = 1;
 
-    let execCounter = 0;
-
     function _execSrenarioLine(lineData) {
         let lineNo = lineData[0];
         let type = lineData[1];
@@ -230,11 +234,4 @@ GF.core = (function () {
         setV: _setV,
         getV:_getV
     }
-
 }());
-
-console.log("defined core");
-
-// module.exports = {
-//     core: GF.core
-// };

@@ -1,24 +1,13 @@
+// スクリプトの関数を定義
 
 (function () {
     "use strict"
 
-    var f1 = function (args) {
-        for (let ii = 0; ii < args.length; ii++) {
-            console.log("func1: arg" + ":" + args[ii]);
-        }
-    };
-
-    var f2 = function (args) {
-        for (let ii = 0; ii < args.length; ii++) {
-            console.log("func2: arg" + ":" + args[ii]);
-        }
-    };
-
+    // キー入力まで実行を停止する
     var key_wait = function (args, callback) {
         $('body').on('keyup',
             ()=>{
-                console.log("callback");
-                callback();
+                callback();  // スクリプトの実行を再開する
                 // keyupイベントを削除
                 $('body').off('keyup');
             }
@@ -93,8 +82,6 @@
         return stackValues.pop();
     };
 
-    GF.core.attachFunction("f1",f1);
-    GF.core.attachFunction("f2",f2);
     GF.core.attachFunctionW("w",key_wait);
     GF.core.attachFunctionW("out",out_txt);
 
