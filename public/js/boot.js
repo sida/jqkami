@@ -1,4 +1,4 @@
-console.log("start index.js");
+console.log("start boot.js");
 
 $(function(){
     $.ajax('../data/scenario.txt')

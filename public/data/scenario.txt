@@ -1,8 +1,7 @@
 # comment
-showElement #yandere 1
+showElement #yandere 0
 setElementSize #yandere auto 300
 setElementLocate #yandere 500 120
-showElement #yandere 0
 
 showElement #gao-man 1
 setElementSize #gao-man auto 340
@@ -12,11 +11,11 @@ showElement #gao-woman 0
 showElement #pistol 0
 showElement #syani-woman 0
 
-out #text-window "てすてすてすてすてす"
-w
+てーすとててて
+
+"てすてすてすてすてす"
 
 showElement #yandere 1
 showElement #gao-man 0
 
-out #text-window "テステステステス！！"
-w
+テステステステス！！

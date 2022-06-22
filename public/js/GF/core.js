@@ -16,6 +16,7 @@ GF.core = (function () {
 
     let _attachScenarioText = function (text) {
         senarioData = _parseSenario(text);
+        console.log(senarioData);
     };
 
     // スクリプトの関数を登録
@@ -36,7 +37,7 @@ GF.core = (function () {
     };
 
     let _exec = function () {
-        _execSrenario(senarioData);
+        _execSrenario();
     };
 
     let _defineVar = (name, val) => {
@@ -51,11 +52,11 @@ GF.core = (function () {
         throw new Error(name + "は未定義の変数です");
     };
 
-    let _getV = (name) => {
+    let _getV = (name, defaultV) => {
         if (name in variableList) {
             return variableList[name];
         }
-        throw new Error(name + "は未定義の変数です");
+        return defaultV;
     }
 
     const LINETYPE_UNKNOWN = 0;
@@ -94,9 +95,15 @@ GF.core = (function () {
             arg.push(lineText);
         } else {
             // func
-            type = LINETYPE_FUNCTION;
             let parseFuncRet = _parseFunc(lineText);
-            arg = parseFuncRet;
+            if (parseFuncRet.length ===1 && (/^[^\x01-\x7E\uFF61-\uFF9F]+$/.test(parseFuncRet[0].substr(0, 1)))) {
+                // 先頭が全角なら文字列として扱う
+                type = LINETYPE_STRING;
+                arg.push(parseFuncRet[0]);
+            } else {
+                type = LINETYPE_FUNCTION;
+                arg = parseFuncRet;
+            }
         }
         return [lineNum, type, arg];
     }
@@ -170,7 +177,7 @@ GF.core = (function () {
                 gf_label(prog);
                 break;
             case LINETYPE_STRING:
-                gf_string(prog);
+                ret = gf_string(prog);
                 break;
             case LINETYPE_SPACE:
                 gf_space(prog);
@@ -217,8 +224,10 @@ GF.core = (function () {
         return senarioFuncList[funcName](arg);
     }
 
-    function gf_string(prog) {
-        console.log("string:" + prog.shift());
+    function gf_string(txt) {
+        console.log("string:" + txt);
+        let funcName = "outw";
+        return senarioFuncList[funcName](txt);
     }
 
     function gf_space(prog) {
