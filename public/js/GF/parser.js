@@ -29,7 +29,7 @@ GF.parser = (function () {
             // label
             type = GF.const.LINETYPE_LABEL;
             let ret = lineText.substr(1).trim();
-            arg.push(ret);
+            arg = ret;
         } else if (faistC === "#") {
             // comment
             type = GF.const.LINETYPE_COMMENT;
@@ -51,10 +51,13 @@ GF.parser = (function () {
                 arg = parseFuncRet;
             }
         }
+        console.log("---arg---");
+        console.log(arg);
         return [lineNum, type, arg];
     }
 
     function _parseFunc(lineText) {
+        console.log("_parseFunc:" + lineText)
         const arrText = Array.from(lineText);
         let ret = [];
         let item = "";
@@ -90,6 +93,9 @@ GF.parser = (function () {
         if (item.length) {
             ret.push(item);
         }
+        console.log("--- _parseFunc result ---")
+        console.log(ret)
+
         return ret;
     }
 
@@ -100,7 +106,12 @@ GF.parser = (function () {
         let ret = [];
         while (lineArr.length) {
             let line = lineArr.shift();
-            ret.push(_parseLine(lineCount, line));
+            console.log("--- line input ---");
+            console.log(line)
+            let retline = _parseLine(lineCount, line)
+            console.log("--- line result ---");
+            console.log(retline)
+            ret.push(retline);
             lineCount++;
         }
         return ret;

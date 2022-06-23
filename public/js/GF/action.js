@@ -11,32 +11,29 @@
 (function () {
     "use strict"
 
+    var goto_label = (args) => {
+        let labelName = args[0];
+        GF.core.gotoLabel(labelName);
+    }
+
     // キー入力まで実行を停止する
     var key_wait = function (args, callback) {
         let elem = get_default_output();
         let txt = args[0];
 
-        console.log("key_wait");
-        console.log([elem,txt]);
         $(elem).text(txt);
 
-        $('body').on('keyup',
+        $(document).off('click.txw');
+        let onClickFlag = false;
+        $(document).on('click.txw',
             ()=>{
-                console.log("keyup!");
+                if (onClickFlag) {
+                    return;
+                }
+                onClickFlag = true;
                 callback();  // スクリプトの実行を再開する
-                // keyupイベントを削除
-                // なぜかoffをすると２回目でonが効かなくなるのでnullをセットするようにした
-                // $('body').off('keyup');
-                $('body').on('keyup',null);
             }
         );
-    };
-
-    var out_txt = (args, callback) => {
-        let elem = args[0];
-        let txt = args[1];
-        $(elem).text(txt);
-        callback();
     };
 
     var set_default_output = (args) => {
@@ -109,8 +106,9 @@
         return stackValues.pop();
     };
 
+
     GF.core.attachFunctionW("outw", key_wait);
-    GF.core.attachFunctionW("out", out_txt);
+    GF.core.attachFunction("goto", goto_label);
 
     GF.core.attachFunction("setElementSize",set_size);
     GF.core.attachFunction("setElementLocate",set_loc);

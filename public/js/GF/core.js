@@ -78,6 +78,9 @@ GF.core = (function () {
     const EXEC_WAIT = 1;
 
     function _execSrenarioLine(lineData) {
+        console.log("---exec line---:" + (execCounter-1));
+        console.log(lineData);
+
         let lineNo = lineData[0];
         let type = lineData[1];
         let prog = lineData[2];
@@ -98,7 +101,10 @@ GF.core = (function () {
                 break;
             case GF.const.LINETYPE_FUNCTION:
                 ret = gf_func(prog);
-                console.log("func return:" + ret);
+                break;
+            default:
+                console.log("xxx switch default xxx");
+                throw new Error('不正な行の種別:' + type);
                 break;
         }
         return ret;
@@ -119,22 +125,53 @@ GF.core = (function () {
         if (wait_counter <= 0) {
             wait_counter=0;
             _execSrenario();
+            return;
         }
         return;
     }
 
+    function findLabelIdx(labelName) {
+        for (let idx = 0;idx < scenarioData.length;idx++) {
+            let line = scenarioData[idx];
+            if (line[1] === GF.const.LINETYPE_LABEL) {
+                if (line[2] === labelName) {
+                    return idx;
+                }
+            }
+        }
+        return null;
+    }
+
+    function _gotoLabel(labelName) {
+        let labelIdx = findLabelIdx(labelName);
+        if (labelIdx === null) {
+            throw new Error(labelName + 'ラベルがありません');
+        }
+        execCounter = labelIdx;
+    }
+
     function gf_comment(prog) {
-        console.log("comment:" + prog.shift());
+        console.log("comment:" + prog[0]);
     }
 
     function gf_label(prog) {
-        console.log("label:" + prog.shift());
+        console.log("label:" + prog);
     }
 
     var gf_func = (prog) => {
-        let funcName = prog.shift();
+        console.log('--- function ---');
+        let funcName = prog[0];
         console.log("#call " + funcName);
-        let arg = prog;
+
+        let arg = prog.concat();
+        arg.shift();
+
+        if (!(funcName in scenarioFuncList)) {
+            console.log(scenarioData);
+            console.log("Pcount:" + execCounter);
+            throw Error('関数'+funcName+'が定義されていません');
+        }
+
         return scenarioFuncList[funcName](arg);
     }
 
@@ -150,6 +187,7 @@ GF.core = (function () {
 
     return {
         init: _init,
+        gotoLabel: _gotoLabel,
         attachFunction: _attachFunction,
         attachFunctionW: _attachFunctionW,
         exec: _exec,

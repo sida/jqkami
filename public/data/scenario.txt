@@ -11,11 +11,20 @@ showElement #gao-woman 0
 showElement #pistol 0
 showElement #syani-woman 0
 
-てーすとててて
+テ0スト０ここには戻らない1
+テ1スト０ここには戻らない2
+テ2スト０ここには戻らない3e
+:label1
+showElement #yandere 0
+showElement #gao-man 1
 
-"てすてすてすてすてす"
+て3ーすとててて--1ここに戻る
+
+"て4すてすてすてすてす このあと切り替わり"
 
 showElement #yandere 1
 showElement #gao-man 0
 
-テステステステス！！
+テ5ステステステス！！ここで切り替わり。次戻る
+
+goto label1
