@@ -1,4 +1,10 @@
 // スクリプトの関数を定義
+(()=>{
+    if (typeof GF === 'undefined') {
+        document.body.innerHTML = "coreライブラリが読み込まれていません"
+        throw new Error("coreライブラリが読み込まれていません");
+    }
+})();
 
 (function () {
     "use strict"
