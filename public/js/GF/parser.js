@@ -8,11 +8,11 @@
 })();
 
 GF.parser = (function () {
-    let senarioData = [];
+    let scenarioData = [];
 
     let _parse = (text) => {
-        senarioData = _parseSenario(text);
-        return senarioData;
+        scenarioData = _parsescenario(text);
+        return scenarioData;
     };
 
     function _parseLine(lineNum, inText) {
@@ -93,7 +93,7 @@ GF.parser = (function () {
         return ret;
     }
 
-    function _parseSenario(novel) {
+    function _parsescenario(novel) {
         // 改行コードで分割
         let lineArr = novel.split(/\r\n|\n|\r/);
         let lineCount = 0;

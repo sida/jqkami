@@ -20,9 +20,9 @@ GF.const = (()=>{
 })();
 
 GF.core = (function () {
-    let senarioData = [];
+    let scenarioData = [];
     // スクリプトの関数は名前をキーにしてクロージャーの連想配列で管理
-    let senarioFuncList = {};
+    let scenarioFuncList = {};
     // スクリプトの変数は名前をキーにして連想配列で管理
     let variableList = {};
     // スクリプト処理終了を待ち合わせしている件数（待ち合わせが必要な場合はattachFunctionW（）で登録する）
@@ -31,12 +31,12 @@ GF.core = (function () {
     let execCounter = 0;
 
     let _init = (data) => {
-        senarioData = data;
+        scenarioData = data;
     }
 
     // スクリプトの関数を登録
     let _attachFunction = function (name, func) {
-        senarioFuncList[name] = (arg) => {
+        scenarioFuncList[name] = (arg) => {
             func(arg);
             return EXEC_CONTINUE;
         };
@@ -44,9 +44,9 @@ GF.core = (function () {
 
     // 処理の終了を待つ必要があるスクプトの関数を登録
     let _attachFunctionW = function (name, func) {
-        senarioFuncList[name] = (arg) => {
+        scenarioFuncList[name] = (arg) => {
             wait_counter++;
-            func(arg, _continueSenario);
+            func(arg, _continuescenario);
             return EXEC_WAIT;
         };
     };
@@ -105,8 +105,8 @@ GF.core = (function () {
     }
 
     function _execSrenario() {
-        while (senarioData.length > execCounter) {
-            let line = senarioData[execCounter];
+        while (scenarioData.length > execCounter) {
+            let line = scenarioData[execCounter];
             execCounter++;
             if (_execSrenarioLine(line) === EXEC_WAIT) {
                 return;
@@ -114,7 +114,7 @@ GF.core = (function () {
         }
     }
 
-    function _continueSenario() {
+    function _continuescenario() {
         wait_counter--;
         if (wait_counter <= 0) {
             wait_counter=0;
@@ -135,13 +135,13 @@ GF.core = (function () {
         let funcName = prog.shift();
         console.log("#call " + funcName);
         let arg = prog;
-        return senarioFuncList[funcName](arg);
+        return scenarioFuncList[funcName](arg);
     }
 
     function gf_string(txt) {
         console.log("string:" + txt);
         let funcName = "outw";
-        return senarioFuncList[funcName](txt);
+        return scenarioFuncList[funcName](txt);
     }
 
     function gf_space(prog) {
