@@ -1,3 +1,5 @@
+'use strict';
+
 // スクリプトの関数を定義
 (()=>{
     if (typeof GF === 'undefined') {

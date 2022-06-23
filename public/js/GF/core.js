@@ -1,7 +1,23 @@
+'use strict';
+
 var GF = GF || {
+    const:{},
     core: {},
     parser: {}
 }
+
+GF.const = (()=>{
+    return {
+        LINETYPE_UNKNOWN : 0,
+        LINETYPE_COMMENT : 1,
+        LINETYPE_FUNCTION : 2,
+        LINETYPE_LABEL : 3,
+        LINETYPE_STRING : 4,
+        LINETYPE_SPACE : 5,
+        LINETYPE_ERROR : -1,
+        LINETYPES_NAME : ["unknow", "comment", "function", "label", "string"],
+    };
+})();
 
 GF.core = (function () {
     let senarioData = [];
@@ -58,16 +74,6 @@ GF.core = (function () {
         return defaultV;
     }
 
-    const LINETYPE_UNKNOWN = 0;
-    const LINETYPE_COMMENT = 1;
-    const LINETYPE_FUNCTION = 2;
-    const LINETYPE_LABEL = 3;
-    const LINETYPE_STRING = 4;
-    const LINETYPE_SPACE = 5;
-    const LINETYPE_ERROR = -1;
-
-    const LINETYPES_NAME = ["unknow", "comment", "function", "label", "string"];
-
     const EXEC_CONTINUE = 0;
     const EXEC_WAIT = 1;
 
@@ -76,21 +82,21 @@ GF.core = (function () {
         let type = lineData[1];
         let prog = lineData[2];
 
-        let ret = EXEC_CONTINUE;
+        let ret = GF.const.EXEC_CONTINUE;
         switch (type) {
-            case LINETYPE_COMMENT:
+            case GF.const.LINETYPE_COMMENT:
                 gf_comment(prog)
                 break;
-            case LINETYPE_LABEL:
+            case GF.const.LINETYPE_LABEL:
                 gf_label(prog);
                 break;
-            case LINETYPE_STRING:
+            case GF.const.LINETYPE_STRING:
                 ret = gf_string(prog);
                 break;
-            case LINETYPE_SPACE:
+            case GF.const.LINETYPE_SPACE:
                 gf_space(prog);
                 break;
-            case LINETYPE_FUNCTION:
+            case GF.const.LINETYPE_FUNCTION:
                 ret = gf_func(prog);
                 console.log("func return:" + ret);
                 break;
@@ -126,9 +132,9 @@ GF.core = (function () {
     }
 
     var gf_func = (prog) => {
-        funcName = prog.shift();
+        let funcName = prog.shift();
         console.log("#call " + funcName);
-        arg = prog;
+        let arg = prog;
         return senarioFuncList[funcName](arg);
     }
 
