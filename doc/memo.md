@@ -1,3 +1,10 @@
+* HTML
+** 表示順
+テキストウインドウ(#text-window)    z-index: 500;
+人物(.character)    z-index: 500;
+背景(.background)    z-index: 300;
+シーン(.scene)    z-index: 200;
+
 
 * シナリオデータ（JSON）
   GF.parser.parse({シナリオテキスト})で変換後の形式
@@ -21,8 +28,6 @@ LINETYPE_LABEL : 3,
 LINETYPE_STRING : 4,
 LINETYPE_SPACE : 5,
 LINETYPE_ERROR : -1,
-
-
 
 
 * シナリオデータ（テキスト）
