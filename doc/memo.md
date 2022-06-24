@@ -69,3 +69,12 @@ goto {label名}
 *** 変数
 先頭が半角英字文字列
 実行時に未定義の場合は例外が発生
+
+
+* ライブラリ
+JQuery https://jquery.com/
+sprintf.js https://github.com/alexei/sprintf.js
+
+* 素材
+みんちりえ https://min-chi.material.jp/
+いらすとや https://www.irasutoya.com/

@@ -37,6 +37,26 @@
     visibility: visible;
 }
 
+#select-window {
+    position: absolute;
+    width: 400px;
+    margin: 0;
+    padding: 20px;
+
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(100,255,212,0.5);
+    visibility: hidden;
+    z-index: 600;
+}
+
+.select-item {
+    margin: 10px;
+    background-color: lawngreen;
+}
+
 .scene {
     position: absolute;
     top: 0;

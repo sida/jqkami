@@ -21,9 +21,18 @@ showElement #gao-woman 0
 showElement #pistol 0
 showElement #syani-woman 0
 
-テ0スト０ここには戻らない1
-テ1スト０ここには戻らない2
-テ2スト０ここには戻らない3e
+開始デス！
+テストここには戻らない1
+テストここには戻らない2
+テストここには戻らない3e
+
+つぎ選択する
+select メッセージを表示 1選びますか？ ２選ぶんだ？ 3選ばないように？
+jump sel1 sel2 sel3
+
+# 選択終わった
+
+
 :label1
 showElement #yandere 0
 showElement #gao-man 1
@@ -44,3 +53,19 @@ showElement #back-machi 0
 テ5ステステステス！！ここで切り替わり。次戻る
 
 goto label1
+
+:sel1
+選択したのは１
+goto end
+
+:sel2
+選択したのは２
+もどる
+goto label1
+
+:sel3
+選択したのは３
+goto end
+
+:end
+はずれ。おしまい。

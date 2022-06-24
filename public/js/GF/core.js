@@ -3,7 +3,8 @@
 var GF = GF || {
     const:{},
     core: {},
-    parser: {}
+    parser: {},
+    util: {},
 }
 
 GF.const = (()=>{
@@ -29,6 +30,8 @@ GF.core = (function () {
     let wait_counter = 0;
     // 実行行のカウンタ
     let execCounter = 0;
+    // 戻り値
+    let returnValue = 0;
 
     let _init = (data) => {
         scenarioData = data;
@@ -120,7 +123,11 @@ GF.core = (function () {
         }
     }
 
-    function _continuescenario() {
+    function _continuescenario(retVal) {
+        console.log("callback:" + retVal);
+        if (typeof retVal !== 'undefined') {
+            returnValue = retVal;
+        }
         wait_counter--;
         if (wait_counter <= 0) {
             wait_counter=0;
@@ -143,11 +150,16 @@ GF.core = (function () {
     }
 
     function _gotoLabel(labelName) {
+        console.log("goto :" + labelName);
         let labelIdx = findLabelIdx(labelName);
         if (labelIdx === null) {
             throw new Error(labelName + 'ラベルがありません');
         }
         execCounter = labelIdx;
+    }
+
+    function _getReturnValue() {
+        return returnValue;
     }
 
     function gf_comment(prog) {
@@ -190,6 +202,7 @@ GF.core = (function () {
         gotoLabel: _gotoLabel,
         attachFunction: _attachFunction,
         attachFunctionW: _attachFunctionW,
+        getReturnValue: _getReturnValue,
         exec: _exec,
         defineVar: _defineVar,
         setV: _setV,
