@@ -8,6 +8,11 @@
     }
 })();
 
+// 右クリック禁止
+$(document).on("contextmenu", function(){
+    return false;
+});
+
 (function () {
     "use strict"
 
@@ -141,6 +146,10 @@
         let f = Number(args[1]);
         GF.util.showElement(elem, f);
     };
+
+    function _showMenu (showf) {
+        GF.util.showElement("#bt-menu");
+    }
 
     // function showElement(elem, showf) {
     //     if (showf) {

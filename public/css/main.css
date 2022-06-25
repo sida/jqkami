@@ -19,6 +19,7 @@
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+    visibility: hidden;
     background-color: lightgray;
 }
 
@@ -34,7 +35,14 @@
 }
 
 #loading-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     visibility: visible;
+    color: white;
+    background-color: black;
 }
 
 #select-window {
@@ -50,6 +58,15 @@
     background-color: rgba(100,255,212,0.5);
     visibility: hidden;
     z-index: 600;
+}
+
+#bt-menu {
+    position: absolute;
+    top: 550px;
+    left: 700px;
+    height: 30px;
+    width: 30px;
+    z-index: 601;
 }
 
 .select-item {

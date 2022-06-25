@@ -78,3 +78,4 @@ sprintf.js https://github.com/alexei/sprintf.js
 * 素材
 みんちりえ https://min-chi.material.jp/
 いらすとや https://www.irasutoya.com/
+icooon mono https://icooon-mono.com/

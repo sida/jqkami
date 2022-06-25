@@ -3,11 +3,9 @@
 # ローディング閉じる
 showElement #loading-scene 0
 # シーン表示
-showElement #scene1 1
+showElement #main-screen 1
 showElement #text-window 1
 showElement #back-showa 1
-
-
 
 showElement #yandere 0
 setElementSize #yandere auto 300
