@@ -1,22 +1,22 @@
 'use strict';
 
 var GF = GF || {
-    const:{},
+    const: {},
     core: {},
     parser: {},
     util: {},
 }
 
-GF.const = (()=>{
+GF.const = (() => {
     return {
-        LINETYPE_UNKNOWN : 0,
-        LINETYPE_COMMENT : 1,
-        LINETYPE_FUNCTION : 2,
-        LINETYPE_LABEL : 3,
-        LINETYPE_STRING : 4,
-        LINETYPE_SPACE : 5,
-        LINETYPE_ERROR : -1,
-        LINETYPES_NAME : ["unknow", "comment", "function", "label", "string"],
+        LINETYPE_UNKNOWN: 0,
+        LINETYPE_COMMENT: 1,
+        LINETYPE_FUNCTION: 2,
+        LINETYPE_LABEL: 3,
+        LINETYPE_STRING: 4,
+        LINETYPE_SPACE: 5,
+        LINETYPE_ERROR: -1,
+        LINETYPES_NAME: ["unknow", "comment", "function", "label", "string"],
     };
 })();
 
@@ -35,6 +35,40 @@ GF.core = (function () {
 
     let _init = (data) => {
         scenarioData = data;
+    }
+
+    let screenSize = {
+        w: -1,
+        h: -1
+    };
+
+    let _setScreen = (w, h) => {
+        screenSize.w = w;
+        screenSize.h = h;
+        _resizeScreen();
+    }
+
+    function _resizeScreen() {
+        if (screenSize.w < 0 || screenSize.h < 0) {
+            return;
+        }
+        let ASPECT = screenSize.w / screenSize.h;
+        //ウインドウの高さを変数に格納
+        let height = $(window).height();
+        let width = $(window).width();
+        // let height = window.innerHeight;
+        // let width = window.innerWidth;
+        let realAspect = width / height;
+
+        let zoom = width / screenSize.w;
+
+        if (realAspect > ASPECT) {
+            // 横長
+            zoom = height / screenSize.h;
+        }
+        let zoomCss = (zoom * 100) + "%";
+        $("#main-screen").css("zoom", zoomCss);
+        console.log(["resize", height, width, zoom, zoomCss]);
     }
 
     // スクリプトの関数を登録
@@ -81,7 +115,7 @@ GF.core = (function () {
     const EXEC_WAIT = 1;
 
     function _execSrenarioLine(lineData) {
-        console.log("---exec line---:" + (execCounter-1));
+        console.log("---exec line---:" + (execCounter - 1));
         console.log(lineData);
 
         let lineNo = lineData[0];
@@ -130,7 +164,7 @@ GF.core = (function () {
         }
         wait_counter--;
         if (wait_counter <= 0) {
-            wait_counter=0;
+            wait_counter = 0;
             _execSrenario();
             return;
         }
@@ -138,7 +172,7 @@ GF.core = (function () {
     }
 
     function findLabelIdx(labelName) {
-        for (let idx = 0;idx < scenarioData.length;idx++) {
+        for (let idx = 0; idx < scenarioData.length; idx++) {
             let line = scenarioData[idx];
             if (line[1] === GF.const.LINETYPE_LABEL) {
                 if (line[2] === labelName) {
@@ -181,7 +215,7 @@ GF.core = (function () {
         if (!(funcName in scenarioFuncList)) {
             console.log(scenarioData);
             console.log("Pcount:" + execCounter);
-            throw Error('関数'+funcName+'が定義されていません');
+            throw Error('関数' + funcName + 'が定義されていません');
         }
 
         return scenarioFuncList[funcName](arg);
@@ -199,6 +233,8 @@ GF.core = (function () {
 
     return {
         init: _init,
+        setScreen: _setScreen,
+        resizeScreen: _resizeScreen,
         gotoLabel: _gotoLabel,
         attachFunction: _attachFunction,
         attachFunctionW: _attachFunctionW,
@@ -206,6 +242,12 @@ GF.core = (function () {
         exec: _exec,
         defineVar: _defineVar,
         setV: _setV,
-        getV:_getV
+        getV: _getV
     }
 }());
+
+$(function () {
+    $(window).resize(function () {
+        GF.core.resizeScreen();
+    });
+});

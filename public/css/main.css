@@ -20,6 +20,7 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     visibility: hidden;
+    overflow: hidden;
     background-color: lightgray;
 }
 
