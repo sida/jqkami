@@ -27,9 +27,17 @@
             <img id="pistol" class="character" src="img/pistol_pose_woman.png">
             <img id="syani-woman" class="character" src="img/pose_syanikamaeru_woman.png">
 
-            <div id="text-window"></div>
+            <div id="text-window">
+                てすと<br>
+                てすと<br>
+                てすと<br>
+            </div>
+
+            <div id="bt-next-text" class="ui poyon">
+                つぎへ
+            </div>
+
             <img id="bt-menu" src="img/menu.png">
-            <div id="bt-next-text" class="ui poyon">つぎへ</div>
 
             <div id="select-window">
                 <!-- 動的に生成するの削除しても構わない -->
@@ -39,11 +47,20 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="js/GF/core.js"></script>
+    <script>
+        $(function () {
+            $("#loading-scene").css("visibility", "hidden");
+            $("#main-screen").css("visibility", "visible");
+            $("#back-showa").css("visibility", "visible");
+            $("#text-window").css("visibility", "visible");
+            $("#bt-next-text").css("visibility", "visible");
+        });
+    </script>
+    <!-- <script type="text/javascript" src="js/GF/core.js"></script>
     <script type="text/javascript" src="js/GF/util.js"></script>
     <script type="text/javascript" src="js/GF/parser.js"></script>
     <script type="text/javascript" src="js/GF/action.js"></script>
-    <script type="text/javascript" src="js/boot.js"></script>
+    <script type="text/javascript" src="js/boot.js"></script> -->
 </body>
 
 </html>

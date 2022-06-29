@@ -26,12 +26,15 @@
 
 #text-window {
     position:absolute;
-    top: 440px;
+    top: 490px;
     left: 50px;
-    height: 150px;
+    height: 100px;
     width: 700px;
+    padding: 10px;
     visibility: hidden;
-    background-color: rgba(255,105,212,0.5);
+    color: white;
+    background-color: rgba(114, 0, 46, 0.5);
+    border-radius: 10px;
     z-index: 600;
 }
 
@@ -70,6 +73,21 @@
     z-index: 601;
 }
 
+#bt-next-text {
+    position: relative;
+    color: black;
+    background-color: white;
+    width: 100px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    top:560px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 10px;
+}
+
+
 .select-item {
     margin: 10px;
     background-color: lawngreen;
@@ -100,3 +118,23 @@
     visibility: hidden;
     z-index: 300;
 }
+
+.ui {
+    z-index: 600;
+}
+
+.poyon {
+    animation: poyon 2s linear 0.5s infinite;
+  }
+
+  @keyframes poyon {
+    0%   { transform: scale(0.8, 1.4) translate(0%, -100%); }
+    10%  { transform: scale(0.8, 1.4) translate(0%, -15%); }
+    20%  { transform: scale(1.4, 0.6) translate(0%, 30%); }
+    30%  { transform: scale(0.9, 1.1) translate(0%, -10%); }
+    40%  { transform: scale(0.95, 1.2) translate(0%, -30%); }
+    50%  { transform: scale(0.95, 1.2) translate(0%, -10%); }
+    60%  { transform: scale(1.1, 0.9) translate(0%, 5%); }
+    70%  { transform: scale(1.0, 1.0) translate(0%, 0%); }
+    100% { transform: scale(1.0, 1.0) translate(0%, 0%); }
+  }
