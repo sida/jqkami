@@ -40,7 +40,7 @@ showElement #back-machi 1
 
 て3ーすとててて--1ここに戻る
 
-"て4すてすてすてすてす このあと切り替わり"
+"て4すてすてすてすてす このあと切り替わり
 
 showElement #yandere 1
 showElement #gao-man 0

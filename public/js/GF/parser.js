@@ -17,39 +17,41 @@ GF.parser = (function () {
 
     function _parseLine(lineNum, inText) {
         let lineText = inText.trim();
-        let faistC = lineText.substr(0, 1);
+        let firstC = lineText.substr(0, 1);
 
         let type = GF.const.LINETYPE_UNKNOWN;
         let arg = [];
 
-        if (faistC.trim().length == 0) {
+        if (firstC.trim().length == 0) {
             type = GF.const.LINETYPE_SPACE;
             arg = "";
-        } else if (faistC === ":") {
+        } else if (firstC === ":") {
             // label
             type = GF.const.LINETYPE_LABEL;
             let ret = lineText.substr(1).trim();
             arg = ret;
-        } else if (faistC === "#") {
+        } else if (firstC === "#") {
             // comment
             type = GF.const.LINETYPE_COMMENT;
             let ret = lineText.substr(1).trim();
             arg.push(ret);
-        } else if (/^[^\x01-\x7E\uFF61-\uFF9F]+$/.test(faistC)) {
-            // 全角
+        } else if (firstC === '"') {
+            // 文字列(”開始)
+            type = GF.const.LINETYPE_STRING;
+            let ret = lineText.substr(1).trim();
+            arg.push(ret);
+        } else if (/^[^\x01-\x7E\uFF61-\uFF9F]+$/.test(firstC)) {
+            // 文字列(全角開始)
             type = GF.const.LINETYPE_STRING;
             arg.push(lineText);
-        } else {
+        } else if (/^[a-zA-Z]/.test(firstC)) {
             // func
             let parseFuncRet = _parseFunc(lineText);
-            if (parseFuncRet.length ===1 && (/^[^\x01-\x7E\uFF61-\uFF9F]+$/.test(parseFuncRet[0].substr(0, 1)))) {
-                // 先頭が全角なら文字列として扱う
-                type = GF.const.LINETYPE_STRING;
-                arg.push(parseFuncRet[0]);
-            } else {
-                type = GF.const.LINETYPE_FUNCTION;
-                arg = parseFuncRet;
-            }
+            type = GF.const.LINETYPE_FUNCTION;
+            arg = parseFuncRet;
+        } else {
+            console.log('不明な形式の行です：' + lineText);
+            throw new Error('不明な形式の行です：' + lineText);
         }
         console.log("---arg---");
         console.log(arg);

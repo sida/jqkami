@@ -13,7 +13,11 @@ $(function(){
             reader.onload = ()=> {
                 console.log(reader.result);
                 $('#inputFile').remove();
-                GF.core.attachScenarioText(reader.result);
+                let data = reader.result;
+                let scenario = GF.parser.parse(data);
+                console.log(scenario);
+                GF.core.setScreen(800, 600);
+                GF.core.init(scenario);
                 GF.core.exec();
             };
         }
