@@ -20,9 +20,9 @@ showElement #pistol 0
 showElement #syani-woman 0
 
 開始デス！
-テストここには戻らない1
+テスト\nここには戻らない1
 nl
-テストここには戻らない2
+テスト\nここには戻らない2
 nl
 テストここには戻らない2
 nl

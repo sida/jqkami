@@ -31,20 +31,27 @@ $(document).on("contextmenu", function(){
     }
 
     var window_text = "";
+
     var append_text = (args, callback)=>{
+        let text = args[0];
+        const replaced = text.replace(/\\n/g, "\n");
+        const arrText = Array.from(replaced);
+        append_char(callback ,arrText)
+    }
+
+    function append_char(callback ,arrText) {
+        if (arrText.length == 0) {
+            callback();
+            return;
+        }
+        let c = arrText.shift();
+        if (c === "\n") {
+            c = '<br>';
+        }
         let elem = get_default_output();
-        let txt = args[0];
-        window_text += txt;
+        window_text += c;
         $(elem).html(window_text);
-        callback();
-    }
-
-    function append_char_list(text) {
-
-    }
-
-    function append_char(str) {
-
+        setTimeout(append_char, 100, callback, arrText);
     }
 
     var clear_text = ()=>{
