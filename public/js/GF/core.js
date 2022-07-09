@@ -13,7 +13,7 @@ GF.const = (() => {
         LINETYPE_COMMENT: 1,
         LINETYPE_FUNCTION: 2,
         LINETYPE_LABEL: 3,
-        LINETYPE_STRING: 4,
+        LINETYPE_TEXT: 4,
         LINETYPE_SPACE: 5,
         LINETYPE_ERROR: -1,
         LINETYPES_NAME: ["unknow", "comment", "function", "label", "string"],
@@ -39,36 +39,34 @@ GF.core = (function () {
 
     let screenSize = {
         w: -1,
-        h: -1
+        h: -1,
     };
 
     let _setScreen = (w, h) => {
+        console.log([w,h]);
         screenSize.w = w;
         screenSize.h = h;
         _resizeScreen();
     }
 
     function _resizeScreen() {
-        if (screenSize.w < 0 || screenSize.h < 0) {
+        if (screenSize == null) {
             return;
         }
-        let ASPECT = screenSize.w / screenSize.h;
+        let aspect = screenSize.w / screenSize.h;
         //ウインドウの高さを変数に格納
         let height = $(window).height();
         let width = $(window).width();
-        // let height = window.innerHeight;
-        // let width = window.innerWidth;
         let realAspect = width / height;
 
         let zoom = width / screenSize.w;
 
-        if (realAspect > ASPECT) {
+        if (realAspect > aspect) {
             // 横長
             zoom = height / screenSize.h;
         }
         let zoomCss = (zoom * 100) + "%";
         $("#main-screen").css("zoom", zoomCss);
-        console.log(["resize", height, width, zoom, zoomCss]);
     }
 
     // スクリプトの関数を登録
@@ -130,8 +128,8 @@ GF.core = (function () {
             case GF.const.LINETYPE_LABEL:
                 gf_label(prog);
                 break;
-            case GF.const.LINETYPE_STRING:
-                ret = gf_string(prog);
+            case GF.const.LINETYPE_TEXT:
+                ret = gf_text(prog);
                 break;
             case GF.const.LINETYPE_SPACE:
                 gf_space(prog);
@@ -221,9 +219,9 @@ GF.core = (function () {
         return scenarioFuncList[funcName](arg);
     }
 
-    function gf_string(txt) {
-        console.log("string:" + txt);
-        let funcName = "outw";
+    function gf_text(txt) {
+        console.log("text:" + txt);
+        let funcName = "text";
         return scenarioFuncList[funcName](txt);
     }
 

@@ -21,10 +21,21 @@ showElement #syani-woman 0
 
 開始デス！
 テストここには戻らない1
+nl
 テストここには戻らない2
+nl
+テストここには戻らない2
+nl
+テストここには戻らない2
+nl
+テストここには戻らない2
+nl
 テストここには戻らない3e
+wait
 
 つぎ選択する
+wait
+clear
 select メッセージを表示 1選びますか？ ２選ぶんだ？ 3選ばないように？
 jump sel1 sel2 sel3
 
@@ -39,9 +50,9 @@ showElement #back-showa 0
 showElement #back-machi 1
 
 て3ーすとててて--1ここに戻る
-
+wait
 "て4すてすてすてすてす このあと切り替わり
-
+wait
 showElement #yandere 1
 showElement #gao-man 0
 showElement #back-showa 1
@@ -49,21 +60,26 @@ showElement #back-machi 0
 
 
 テ5ステステステス！！ここで切り替わり。次戻る
-
+wait
 goto label1
 
 :sel1
 選択したのは１
+wait
 goto end
 
 :sel2
 選択したのは２
+wait
 もどる
+wait
 goto label1
 
 :sel3
 選択したのは３
+wait
 goto end
 
 :end
 はずれ。おしまい。
+wait

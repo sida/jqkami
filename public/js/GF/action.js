@@ -30,14 +30,43 @@ $(document).on("contextmenu", function(){
         GF.core.gotoLabel(labelName);
     }
 
-    // キー入力まで実行を停止する
-    var key_wait = function (args, callback) {
-        $(document).off('click.txw');
+    var window_text = "";
+    var append_text = (args, callback)=>{
         let elem = get_default_output();
         let txt = args[0];
+        window_text += txt;
+        $(elem).html(window_text);
+        callback();
+    }
 
-        console.log(["print",elem,txt]);
-        $(elem).text(txt);
+    function append_char_list(str) {
+
+    }
+
+    function append_char(str) {
+
+    }
+
+    var clear_text = ()=>{
+        let elem = get_default_output();
+        window_text = "";
+        $(elem).html(window_text);
+    }
+
+    var new_line = ()=> {
+        let elem = get_default_output();
+        window_text += "<br>\n";
+        $(elem).html(window_text);
+    }
+
+    // キー入力まで実行を停止する
+    var key_wait = function (args, callback) {
+        // $(document).off('click.txw');
+        // let elem = get_default_output();
+        // let txt = args[0];
+
+        // console.log(["print",elem,txt]);
+        // $(elem).text(txt);
 
         $(document).off('click.txw');
         let onClickFlag = true;
@@ -169,7 +198,11 @@ $(document).on("contextmenu", function(){
         return stackValues.pop();
     };
 
-    GF.core.attachFunctionW("outw", key_wait);
+    GF.core.attachFunctionW("wait", key_wait);
+    GF.core.attachFunctionW("text", append_text);
+    GF.core.attachFunction("clear", clear_text);
+    GF.core.attachFunction("nl", new_line);
+
     GF.core.attachFunction("goto", goto_label);
     GF.core.attachFunction("jump", jump_label);
     GF.core.attachFunctionW("select", select_wait);
