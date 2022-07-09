@@ -39,7 +39,7 @@ $(document).on("contextmenu", function(){
         callback();
     }
 
-    function append_char_list(str) {
+    function append_char_list(text) {
 
     }
 
