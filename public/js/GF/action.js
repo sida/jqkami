@@ -34,8 +34,9 @@ $(document).on("contextmenu", function(){
 
     var append_text = (args, callback)=>{
         let text = args[0];
-        const replaced = text.replace(/\\n/g, "\n");
-        const arrText = Array.from(replaced);
+        // const replaced = text.replace(/\\n/g, "\n");
+        // const arrText = Array.from(replaced);
+        const arrText = Array.from(text);
         append_char(callback ,arrText)
     }
 
@@ -45,9 +46,27 @@ $(document).on("contextmenu", function(){
             return;
         }
         let c = arrText.shift();
-        if (c === "\n") {
-            c = '<br>';
+        if (c === '\\') {
+            let c2 = arrText.shift();
+            if (c2 === 'n') { // "\n"改行
+                c = '<br>';
+            }
+            else if (c2 === "w") { // "\w" wait
+                key_wait(null, ()=>{append_char(callback ,arrText);})
+                return;
+            }
+            else if (c2 === "c") { // "\c" clear
+                clear_text();
+                append_char(callback ,arrText);
+                return;
+            }
+            else {
+                // スキップ
+                append_char(callback ,arrText);
+                return;
+            }
         }
+
         let elem = get_default_output();
         window_text += c;
         $(elem).html(window_text);
@@ -68,6 +87,7 @@ $(document).on("contextmenu", function(){
 
     // キー入力まで実行を停止する
     var key_wait = function (args, callback) {
+        GF.util.showElement('#bt-next-text', true);
         // $(document).off('click.txw');
         // let elem = get_default_output();
         // let txt = args[0];
@@ -84,6 +104,7 @@ $(document).on("contextmenu", function(){
                     return;
                 }
                 onClickFlag = true;
+                GF.util.showElement('#bt-next-text', false);
                 callback();  // スクリプトの実行を再開する
             }
         );

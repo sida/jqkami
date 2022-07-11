@@ -9,33 +9,25 @@ showElement #back-showa 1
 
 showElement #yandere 0
 setElementSize #yandere auto 300
-setElementLocate #yandere 500 120
+setElementLocate #yandere 500 170
 
 showElement #gao-man 1
 setElementSize #gao-man auto 340
-setElementLocate #gao-man 30 130
+setElementLocate #gao-man 30 180
 
 showElement #gao-woman 0
 showElement #pistol 0
 showElement #syani-woman 0
 
 開始デス！
-テスト\nここには戻らない1
-nl
-テスト\nここには戻らない2
-nl
-テストここには戻らない2
-nl
-テストここには戻らない2
-nl
-テストここには戻らない2
-nl
-テストここには戻らない3e
-wait
-
-つぎ選択する
+テストwait\n
+\tttてすてす
 wait
 clear
+てすてすてすクリアしました。\w
+\nつぎクリアします\w\c
+
+つぎ選択する\w
 select メッセージを表示 1選びますか？ ２選ぶんだ？ 3選ばないように？
 jump sel1 sel2 sel3
 

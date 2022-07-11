@@ -40,6 +40,10 @@ GF.parser = (function () {
             type = GF.const.LINETYPE_TEXT;
             let ret = lineText.substr(1).trim();
             arg.push(ret);
+        } else if (firstC === '\\') {
+            // 文字列(\開始)
+            type = GF.const.LINETYPE_TEXT;
+            arg.push(lineText);
         } else if (/^[^\x01-\x7E\uFF61-\uFF9F]+$/.test(firstC)) {
             // 文字列(全角開始)
             type = GF.const.LINETYPE_TEXT;
