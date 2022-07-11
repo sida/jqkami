@@ -43,16 +43,13 @@ showElement #back-machi 1
 
 て3ーすとててて--1ここに戻る
 wait
-"て4すてすてすてすてす このあと切り替わり
-wait
+"て4すてすてすてすてす このあと切り替わり\w\c
 showElement #yandere 1
 showElement #gao-man 0
 showElement #back-showa 1
 showElement #back-machi 0
 
-
-テ5ステステステス！！ここで切り替わり。次戻る
-wait
+テ5ステステステス！！ここで切り替わり。次戻る\w\c
 goto label1
 
 :sel1
